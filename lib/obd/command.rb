@@ -7,9 +7,9 @@ module OBD
 
     def self.format_result command, result
       if is_command?(command) && result != "NO DATA"
-        pids[command.to_sym].call h(result), h(result).to_i(16)
+        return pids[command.to_sym].call h(result), h(result).to_i(16)
       else
-        result
+        return result
       end
     end
 
@@ -38,20 +38,20 @@ module OBD
         monitor_status_since_clear:            lambda {|x| x},
         freeze_dtc:                            lambda {|x| x},
         fuel_system_status:                    lambda {|x| x},
-        calculated_engine_load:                lambda {|x,d| "%0.2f" % (d * 100.0 / 255.0) + '%'},
-        engine_coolent_temperature:            lambda {|x,d| "%0.2f" % (d * 1.8 - 104) + '*F'},
-        short_term_fuel_trim_bank_1:           lambda {|x,d| "%0.2f" % (d * 0.78125 - 100) + '%'},
-        long_term_fuel_trim_bank_1:            lambda {|x,d| "%0.2f" % (d * 0.78125 - 100) + '%'},
-        short_term_fuel_trim_bank_2:           lambda {|x,d| "%0.2f" % (d * 0.78125 - 100) + '%'},
-        long_term_fuel_trim_bank_2:            lambda {|x,d| "%0.2f" % (d * 0.78125 - 100) + '%'},
-        fuel_pressure:                         lambda {|x,d| "%0.2f" % (d * 3 * 0.145) + 'psi'},
-        intake_manifold_absolute_pressure:     lambda {|x,d| "%0.2f" % (d * 0.145) + 'psi'},
-        engine_rpm:                            lambda {|x,d| "%0.2f" % (d / 4.0) + 'rpm'},
-        vehicle_speed:                         lambda {|x,d| "%0.2f" % (d * 0.621371192) + 'mph'},
-        timing_advance:                        lambda {|x,d| "%0.2f" % (d / 2.0 - 64) + '*'},
-        intake_air_temperature:                lambda {|x,d| "%0.2f" % (d * 1.8 - 104) + '*F'},
-        maf_air_flow_rate:                     lambda {|x,d| "%0.2f" % (d / 100.0) + 'grams/sec'},
-        throttle_position:                     lambda {|x,d| "%0.2f" % (d * 100 / 255.0) + '%'},
+        calculated_engine_load:                lambda {|x,d| "%0.2f" % (d * 100.0 / 255.0)},
+        engine_coolent_temperature:            lambda {|x,d| "%0.2f" % (d - 40.0)},
+        short_term_fuel_trim_bank_1:           lambda {|x,d| "%0.2f" % (d * 0.78125 - 100)},
+        long_term_fuel_trim_bank_1:            lambda {|x,d| "%0.2f" % (d * 0.78125 - 100)},
+        short_term_fuel_trim_bank_2:           lambda {|x,d| "%0.2f" % (d * 0.78125 - 100)},
+        long_term_fuel_trim_bank_2:            lambda {|x,d| "%0.2f" % (d * 0.78125 - 100)},
+        fuel_pressure:                         lambda {|x,d| "%0.2f" % (d * 3 * 0.145)},
+        intake_manifold_absolute_pressure:     lambda {|x,d| "%0.2f" % (d * 0.145)},
+        engine_rpm:                            lambda {|x,d| "%0.2f" % (d / 4.0)},
+        vehicle_speed:                         lambda {|x,d| "%0.2f" % (d)},
+        timing_advance:                        lambda {|x,d| "%0.2f" % (d / 2.0 - 64)},
+        intake_air_temperature:                lambda {|x,d| "%0.2f" % (d - 40)},
+        maf_air_flow_rate:                     lambda {|x,d| "%0.2f" % (d / 100.0)},
+        throttle_position:                     lambda {|x,d| "%0.2f" % (d * 100 / 255.0)},
         commanded_secondary_air_status:        lambda {|x| x}, # bit encoded
         oxygen_sensors_present:                lambda {|x| x}, # [A0..A3] == Bank 1,Sensors 1-4.[A4..A7]
         bank_1_sensor_1_oxygen_sensor_voltage: lambda {|x| x},
