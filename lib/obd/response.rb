@@ -11,7 +11,7 @@ module OBD
     end
     
     def value
-      @hex_response.[4..-1]
+      @hex_response[4..-1]
     end
       
   end
