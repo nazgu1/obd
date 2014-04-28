@@ -39,7 +39,7 @@ module OBD
       while data == '' || data[0] == 'S' do #if data is empty or ELM is in SEARCHING or STOPPED state
         begin
           data = @serial_port.gets("\r\r>").to_s.chomp("\r\r>")
-        resque
+        rescue
           return false
         end
       end
